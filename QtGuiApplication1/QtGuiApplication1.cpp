@@ -27,8 +27,11 @@ VTK_MODULE_INIT(vtkRenderingOpenGL)
 #include <QDesktopWidget.h>
 
 #include <vtkDICOMImageReader.h>
-#include <vtkImageViewer2.h>
 #include <vtkImageData.h>
+#include <vtkImageMapper.h>
+#include <vtkImageActor.h>
+#include <vtkRenderWindowInteractor.h>
+#include <vtkInteractorStyleImage.h>
 
 // Constructor
 QtGuiApplication1::QtGuiApplication1()
@@ -62,11 +65,9 @@ QtGuiApplication1::QtGuiApplication1()
 	vtkNew<vtkActor> sphereActor_rend;
 	sphereActor_rend->SetMapper(sphereMapper_rend);
 
-	// VTK Renderer
 	vtkNew<vtkRenderer> renderer_rend;
 	renderer_rend->AddActor(sphereActor_rend);
 
-	// VTK/Qt wedded
 	this->ui->qvtkWidget_rend->GetRenderWindow()->AddRenderer(renderer_rend);
 
 	// DICOM
@@ -76,18 +77,27 @@ QtGuiApplication1::QtGuiApplication1()
 	reader->SetFileName(inputFilename.c_str());
 	reader->Update();
 
-	vtkNew<vtkPolyDataMapper> sphereMapper_axial;
-	sphereMapper_axial->SetInputConnection(reader->GetOutputPort());
+	vtkSmartPointer<vtkImageData> vImgData = vtkSmartPointer<vtkImageData>::New();
+	vImgData = reader->GetOutput();
 
-	vtkNew<vtkActor> sphereActor_axial;
-	sphereActor_axial->SetMapper(sphereMapper_axial);
+	vtkSmartPointer<vtkImageActor> actor =
+		vtkSmartPointer<vtkImageActor>::New();
+	actor->SetInputData(vImgData);
 
-	// VTK Renderer
 	vtkNew<vtkRenderer> renderer_axial;
-	renderer_axial->AddActor(sphereActor_axial);
+	renderer_axial->AddActor(actor);
 
-	// VTK/Qt wedded
 	this->ui->qvtkWidget_axial->GetRenderWindow()->AddRenderer(renderer_axial);
+	this->ui->qvtkWidget_axial->GetRenderWindow()->Render();
+
+	//vtkSmartPointer<vtkRenderWindowInteractor> interactor =
+	//	vtkSmartPointer<vtkRenderWindowInteractor>::New();
+	//interactor->SetRenderWindow(this->ui->qvtkWidget_axial->GetRenderWindow());
+
+	//vtkSmartPointer<vtkInteractorStyleImage> style =
+	//	vtkSmartPointer<vtkInteractorStyleImage>::New();
+	//interactor->SetInteractorStyle(style);
+	//interactor->Start();
 
 	// Set up action signals and slots
 	connect(this->ui->actionExit, SIGNAL(triggered()), this, SLOT(slotExit()));
