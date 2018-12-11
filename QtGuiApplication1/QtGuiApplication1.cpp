@@ -70,7 +70,7 @@ QtGuiApplication1::QtGuiApplication1()
 	this->ui->qvtkWidget_rend->GetRenderWindow()->AddRenderer(renderer_rend);
 
 	// DICOM
-	std::string inputFilename = "E:\Images\CIT\dicom\IMG00000.DCM";
+	std::string inputFilename = "E:/Images/CIT/dicom/IMG00000.DCM";
 	vtkSmartPointer<vtkDICOMImageReader> reader =
 		vtkSmartPointer<vtkDICOMImageReader>::New();
 	reader->SetFileName(inputFilename.c_str());
