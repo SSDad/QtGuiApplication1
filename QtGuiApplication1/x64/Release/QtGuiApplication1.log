@@ -1,0 +1,5 @@
+﻿  QtGuiApplication1.cpp
+QtGuiApplication1.cpp(73): warning C4129: 'I': unrecognized character escape sequence
+QtGuiApplication1.cpp(73): warning C4129: 'C': unrecognized character escape sequence
+QtGuiApplication1.cpp(73): warning C4129: 'd': unrecognized character escape sequence
+  QtGuiApplication1.vcxproj -> C:\Users\zhen.ji\Documents\Visual Studio 2015\Projects\QtGuiApplication1\x64\Release\QtGuiApplication1.exe
